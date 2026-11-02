@@ -1,4 +1,4 @@
-# Soft Peg-in-Hole Assembly: Vision and Contact Negotiation
+# Beyond Clearance: Learning Contact Negotiation for Soft Peg-in-Hole Assembly
 
 本仓库包含软质插销入孔装配系统的两个核心模块：
 
@@ -96,9 +96,9 @@ ResNet-18 主干网络（GroupNorm）
 
 `rotation_equivariant.py` 会评估 36 个候选旋转角度：
 
-\[
-0^\circ, 10^\circ, 20^\circ, \ldots, 350^\circ
-\]
+$$
+0^\circ,\ 10^\circ,\ 20^\circ,\ \ldots,\ 350^\circ
+$$
 
 对于每个候选角度，程序会旋转输入图像，调用共享的 FCN，并使用输出热力图经过 sigmoid 后的最大响应值进行评分。程序选择得分最高的分支，将对应热力图反向旋转回原始图像坐标系，再通过热力图峰值确定孔中心位置。
 
@@ -209,9 +209,9 @@ python test.py path/to/hole_mask.png \
 
 将最近 4 帧观测拼接：
 
-\[
+$$
 o_t \in \mathbb{R}^{4\times25}=\mathbb{R}^{100}
-\]
+$$
 
 当前 SAC 策略使用 MLP 网络。RGB 图像和 FCN 热力图不属于 SAC 策略的输入观测。
 
@@ -236,9 +236,9 @@ o_t \in \mathbb{R}^{4\times25}=\mathbb{R}^{100}
 
 当前稠密奖励由以下两部分组成：
 
-\[
-r_t=r_t^{black}+r_t^{center}
-\]
+$$
+r_t = r_t^{\mathrm{black}} + r_t^{\mathrm{center}}
+$$
 
 - **黑色区域奖励：** 根据相机检测到的黑色区域比例增加情况给予奖励。
 - **中心进展奖励：** 根据 TCP 到任务坐标系原点的横向距离是否减小给予奖励。
